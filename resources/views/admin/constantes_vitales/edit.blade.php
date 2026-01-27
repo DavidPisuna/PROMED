@@ -3,50 +3,43 @@
 @section('title', 'Editar Constantes Vitales')
 
 @section('content_header')
-<div class="d-flex justify-content-between align-items-center flex-wrap p-2">
-    <div>
-        <h1 class="text-pastel-purple font-weight-bold mb-0">
-            <i class="fas fa-file-signature mr-2"></i>Actualización de Constantes
-        </h1>
-        <p class="text-muted mb-0">Gestión de parámetros clínicos y antropometría</p>
-    </div>
-    <a href="{{ route('admin.registros.show', $registro) }}" class="btn btn-pastel-gray shadow-sm hover-lift">
-        <i class="fas fa-chevron-left mr-1"></i> Regresar al Expediente
+<div class="d-flex justify-content-between align-items-center flex-wrap">
+    <h1 class="text-pastel-purple font-weight-bold">
+        <i class="fas fa-edit mr-2"></i>ACTUALIZAR CONSTANTES VITALES
+    </h1>
+    <a href="{{ route('admin.registros.show', $registro) }}" class="btn btn-pastel-gray shadow-sm">
+        <i class="fas fa-arrow-left mr-1"></i> Volver al registro
     </a>
 </div>
 @stop
 
 @section('content')
-<div class="container-fluid pb-5">
-    
-    {{-- 🔹 HEADER DE PACIENTE: ESTILO COMPACTO Y ELEGANTE --}}
-    <div class="card shadow-sm border-0 mb-4 overflow-hidden" style="border-radius: 15px;">
-        <div class="row no-gutters">
-            <div class="col-md-1 bg-pastel-purple d-flex align-items-center justify-content-center p-3">
-                <i class="fas fa-user-injured fa-2x text-white"></i>
-            </div>
-            <div class="col-md-11">
-                <div class="card-body py-3">
-                    <div class="row text-center text-md-left">
-                        <div class="col-md-4 border-right-md">
-                            <label class="small text-uppercase text-muted font-weight-bold mb-0">Paciente</label>
-                            <div class="h6 font-weight-bold text-dark text-uppercase mb-0">
-                                {{ $registro->paciente->primer_nombre }} {{ $registro->paciente->primer_apellido }}
-                            </div>
-                        </div>
-                        <div class="col-md-3 border-right-md">
-                            <label class="small text-uppercase text-muted font-weight-bold mb-0">Identificación</label>
-                            <div class="h6 font-weight-bold mb-0">{{ $registro->paciente->cedula_identidad }}</div>
-                        </div>
-                        <div class="col-md-2 border-right-md text-center">
-                            <label class="small text-uppercase text-muted font-weight-bold mb-0">Edad</label>
-                            <div><span class="badge badge-pill bg-pastel-purple-light px-3">{{ \Carbon\Carbon::parse($registro->paciente->fecha_nacimiento)->age }} años</span></div>
-                        </div>
-                        <div class="col-md-3 text-center">
-                            <label class="small text-uppercase text-muted font-weight-bold mb-0">Fecha de Registro</label>
-                            <div class="h6 font-weight-bold mb-0">{{ \Carbon\Carbon::parse($registro->fecha)->format('d/m/Y') }}</div>
-                        </div>
-                    </div>
+<div class="container-fluid pb-4">
+    {{-- 🔹 CARD INFORMATIVA DEL PACIENTE --}}
+    <div class="card card-pastel shadow-sm mb-4">
+        <div class="card-header bg-pastel-blue py-2">
+            <h6 class="mb-0 font-weight-bold text-white"><i class="fas fa-user-circle mr-2"></i>Información del Paciente</h6>
+        </div>
+        <div class="card-body bg-light-soft py-3">
+            <div class="row align-items-center text-center text-md-left">
+                <div class="col-md-4 border-right">
+                    <small class="text-muted d-block text-uppercase font-weight-bold">Nombre del Paciente</small>
+                    <span class="h6 font-weight-bold text-dark text-uppercase">
+                        {{ $registro->paciente->primer_nombre }} {{ $registro->paciente->primer_apellido }}
+                    </span>
+                </div>
+                <div class="col-md-2 border-right">
+                    <small class="text-muted d-block text-uppercase font-weight-bold">ID Registro</small>
+                    <span class="badge badge-pill bg-pastel-purple px-3">#{{ $registro->id }}</span>
+                </div>
+                <div class="col-md-3 border-right">
+                    <small class="text-muted d-block text-uppercase font-weight-bold">Edad / Fecha</small>
+                    <span class="text-dark font-weight-bold text-uppercase">{{ \Carbon\Carbon::parse($registro->paciente->fecha_nacimiento)->age }} AÑOS</span>
+                    <small class="d-block text-secondary">{{ \Carbon\Carbon::parse($registro->fecha)->format('d/m/Y') }}</small>
+                </div>
+                <div class="col-md-3">
+                    <small class="text-muted d-block text-uppercase font-weight-bold">Médico Responsable</small>
+                    <span class="text-dark font-weight-500">DR. {{ strtoupper($registro->doctor->primer_apellido ?? 'N/A') }}</span>
                 </div>
             </div>
         </div>
@@ -56,95 +49,96 @@
         @csrf
         @method('PUT')
 
-        <div class="row">
-            {{-- 🔹 COLUMNA IZQUIERDA: SIGNOS VITALES --}}
-            <div class="col-lg-8">
-                <div class="card shadow-sm border-0 mb-4" style="border-radius: 15px;">
-                    <div class="card-header bg-white border-0 pt-4">
-                        <h5 class="font-weight-bold text-primary"><i class="fas fa-heartbeat mr-2"></i>Signos Vitales</h5>
-                    </div>
-                    <div class="card-body">
-                        <div class="row">
-                            @php
-                                $campos = [
-                                    ['name' => 'temperatura', 'label' => 'Temperatura', 'icon' => 'thermometer-half', 'color' => 'info', 'unit' => '°C'],
-                                    ['name' => 'presion_arterial', 'label' => 'Presión Arterial', 'icon' => 'tint', 'color' => 'danger', 'unit' => 'mmHg'],
-                                    ['name' => 'frecuencia_cardiaca', 'label' => 'Frec. Cardíaca', 'icon' => 'heartbeat', 'color' => 'success', 'unit' => 'LPM'],
-                                    ['name' => 'frecuencia_respiratoria', 'label' => 'Frec. Respiratoria', 'icon' => 'wind', 'color' => 'primary', 'unit' => 'RPM'],
-                                    ['name' => 'saturacion_oxigeno', 'label' => 'Saturación O₂', 'icon' => 'lungs', 'color' => 'warning', 'unit' => '%'],
-                                ];
-                            @endphp
+        {{-- SECCIÓN EVALUACIÓN --}}
+        <div class="row mb-4">
+            <div class="col-12">
+                <label class="form-label font-weight-bold text-pastel-blue">
+                    <i class="fas fa-stethoscope mr-1"></i> OBSERVACIONES O ENFERMEDAD ACTUAL
+                </label>
+                <textarea name="enfermedad_actual" class="form-control form-control-pastel shadow-sm text-uppercase" 
+                          rows="3" placeholder="DESCRIBA LOS HALLAZGOS...">{{ old('enfermedad_actual', $constanteVital->enfermedad_actual) }}</textarea>
+            </div>
+        </div>
 
-                            @foreach($campos as $c)
-                            <div class="col-md-6 mb-4">
-                                <div class="p-3 border rounded-lg bg-light-hover transition-all">
-                                    <label class="small font-weight-bold text-uppercase text-{{ $c['color'] }}">
-                                        <i class="fas fa-{{ $c['icon'] }} mr-1"></i> {{ $c['label'] }}
-                                    </label>
-                                    <div class="input-group">
-                                        <input type="{{ $c['name'] == 'presion_arterial' ? 'text' : 'number' }}" 
-                                               step="0.1" name="{{ $c['name'] }}" 
-                                               class="form-control form-control-lg border-0 bg-transparent text-uppercase font-weight-bold" 
-                                               value="{{ old($c['name'], $constanteVital->{$c['name']}) }}">
-                                        <div class="input-group-append">
-                                            <span class="input-group-text bg-transparent border-0 font-weight-bold text-muted">{{ $c['unit'] }}</span>
-                                        </div>
-                                    </div>
-                                </div>
+        {{-- 🔹 FORMULARIO DE CONSTANTES VITALES --}}
+        <div class="card card-pastel shadow-lg">
+            <div class="card-header bg-white border-bottom">
+                <h5 class="card-title mb-0 font-weight-bold text-pastel-blue text-uppercase">
+                    <i class="fas fa-clipboard-list mr-2"></i>Edición de Signos y Antropometría
+                </h5>
+            </div>
+            
+            <div class="card-body">
+                {{-- SECCIÓN 1: SIGNOS VITALES --}}
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <h6 class="text-pastel-purple font-weight-bold mb-3 border-bottom pb-2 text-uppercase">
+                            <i class="fas fa-heart mr-2"></i>Signos Vitales
+                        </h6>
+                    </div>
+                    @php
+                        $signosVitales = [
+                            'temperatura' => ['icon' => 'thermometer-half', 'unit' => '°C', 'color' => 'text-info', 'id' => 'tempIn'],
+                            'presion_arterial' => ['icon' => 'tachometer-alt', 'unit' => 'mmHg', 'color' => 'text-danger', 'id' => 'presionIn'],
+                            'frecuencia_cardiaca' => ['icon' => 'heartbeat', 'unit' => 'lpm', 'color' => 'text-success', 'id' => 'fcIn'],
+                            'frecuencia_respiratoria' => ['icon' => 'wind', 'unit' => 'rpm', 'color' => 'text-primary', 'id' => 'frIn'],
+                            'saturacion_oxigeno' => ['icon' => 'lungs', 'unit' => '%', 'color' => 'text-warning', 'id' => 'satIn'],
+                        ];
+                    @endphp
+
+                    @foreach($signosVitales as $key => $data)
+                    <div class="col-md-4 col-sm-6 mb-3">
+                        <label class="form-label font-weight-bold small text-uppercase">
+                            <i class="fas fa-{{ $data['icon'] }} {{ $data['color'] }} mr-1"></i> {{ str_replace('_', ' ', $key) }}
+                        </label>
+                        <div class="input-group shadow-sm">
+                            <input type="{{ $key == 'presion_arterial' ? 'text' : 'number' }}" 
+                                   id="{{ $data['id'] }}" step="0.1" name="{{ $key }}" 
+                                   class="form-control form-control-pastel text-uppercase font-weight-bold" 
+                                   value="{{ old($key, $constanteVital->$key) }}">
+                            <div class="input-group-append">
+                                <span class="input-group-text bg-light-soft font-weight-bold text-muted small">{{ $data['unit'] }}</span>
                             </div>
-                            @endforeach
                         </div>
                     </div>
+                    @endforeach
                 </div>
 
-                {{-- EVALUACIÓN --}}
-                <div class="card shadow-sm border-0 mb-4" style="border-radius: 15px;">
-                    <div class="card-body">
-                        <label class="font-weight-bold text-muted text-uppercase mb-3">
-                            <i class="fas fa-notes-medical mr-2 text-primary"></i>Enfermedad o Problema Actual
-                        </label>
-                        <textarea name="enfermedad_actual" class="form-control border-0 bg-light text-uppercase p-3" 
-                                  rows="5" style="border-radius: 12px;" 
-                                  placeholder="DESCRIBA LOS HALLAZGOS CLÍNICOS...">{{ old('enfermedad_actual', $constanteVital->enfermedad_actual) }}</textarea>
+                {{-- SECCIÓN 2: ANTROPOMETRÍA --}}
+                <div class="row">
+                    <div class="col-12">
+                        <h6 class="text-pastel-purple font-weight-bold mb-3 border-bottom pb-2 text-uppercase">
+                            <i class="fas fa-weight mr-2"></i>Antropometría
+                        </h6>
                     </div>
+                    <div class="col-md-3 mb-3">
+                        <label class="small font-weight-bold text-uppercase">Peso (kg)</label>
+                        <input type="number" step="0.1" name="peso" id="pesoInput" class="form-control form-control-pastel shadow-sm" value="{{ $constanteVital->peso }}">
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label class="small font-weight-bold text-uppercase">Talla (cm)</label>
+                        <input type="number" step="0.1" name="talla" id="tallaInput" class="form-control form-control-pastel shadow-sm" value="{{ $constanteVital->talla }}">
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label class="small font-weight-bold text-uppercase">IMC (Calculado)</label>
+                        <input type="text" name="imc" id="imcInput" class="form-control bg-light border-0 font-weight-bold" readonly value="{{ $constanteVital->imc }}">
+                    </div>
+                    <div class="col-md-3 mb-3 text-center">
+                        <label class="small font-weight-bold text-uppercase d-block">Estado Nutricional</label>
+                        <span id="imcBadge" class="badge badge-pill badge-secondary mt-2 p-2 w-100 shadow-sm text-uppercase">-</span>
+                    </div>
+                    {{-- Campo oculto para la categoría si lo necesitas --}}
+                    <input type="hidden" name="categoria_imc" id="categoriaImcInput" value="{{ $constanteVital->categoria_imc }}">
                 </div>
             </div>
 
-            {{-- 🔹 COLUMNA DERECHA: ANTROPOMETRÍA Y ACCIONES --}}
-            <div class="col-lg-4">
-                <div class="card shadow-sm border-0 mb-4 bg-pastel-blue-light" style="border-radius: 15px;">
-                    <div class="card-header bg-transparent border-0 pt-4 text-center">
-                        <h5 class="font-weight-bold text-dark text-uppercase">Antropometría</h5>
-                    </div>
-                    <div class="card-body">
-                        <div class="form-group mb-4">
-                            <label class="small font-weight-bold">PESO (KG)</label>
-                            <input type="number" step="0.1" id="pesoInput" name="peso" class="form-control form-control-lg shadow-sm border-0" value="{{ $constanteVital->peso }}" style="border-radius: 10px;">
-                        </div>
-                        <div class="form-group mb-4">
-                            <label class="small font-weight-bold">TALLA (CM)</label>
-                            <input type="number" step="0.1" id="tallaInput" name="talla" class="form-control form-control-lg shadow-sm border-0" value="{{ $constanteVital->talla }}" style="border-radius: 10px;">
-                        </div>
-
-                        <div class="text-center p-3 mb-4 rounded-lg" style="background: rgba(255,255,255,0.5); border: 2px dashed #fff;">
-                            <label class="small font-weight-bold text-muted mb-1 d-block text-uppercase">Índice de Masa Corporal</label>
-                            <h2 class="font-weight-bold text-primary mb-0" id="imcText">-</h2>
-                            <input type="hidden" name="imc" id="imcInput" value="{{ $constanteVital->imc }}">
-                            <span class="badge px-3 py-2 mt-2 text-uppercase" id="imcBadge">-</span>
-                            <input type="hidden" name="categoria_imc" id="categoriaImcInput" value="{{ $constanteVital->categoria_imc }}">
-                        </div>
-
-                        <div class="form-group">
-                            <label class="small font-weight-bold">PERÍMETRO ABDOMINAL (CM)</label>
-                            <input type="number" step="0.1" name="perimetro_abdominal" class="form-control shadow-sm border-0" value="{{ $constanteVital->perimetro_abdominal }}" style="border-radius: 10px;">
-                        </div>
-                    </div>
-                </div>
-
-                <button type="submit" class="btn btn-warning btn-block btn-lg shadow font-weight-bold hover-lift py-3" style="border-radius: 12px;">
-                    <i class="fas fa-sync-alt mr-2"></i> ACTUALIZAR FICHA
+            <div class="card-footer bg-white text-right py-3">
+                <a href="{{ route('admin.registros.show', $registro) }}" class="btn btn-pastel-gray mr-2">
+                    <i class="fas fa-times mr-1"></i> Cancelar
+                </a>
+                <button type="submit" class="btn btn-warning shadow-sm px-4 font-weight-bold" id="btnGuardar">
+                    <i class="fas fa-sync-alt mr-1"></i> ACTUALIZAR REGISTRO
                 </button>
-                <a href="{{ route('admin.registros.show', $registro) }}" class="btn btn-link btn-block text-muted mt-2">Cancelar cambios</a>
             </div>
         </div>
     </form>
@@ -153,28 +147,24 @@
 
 @section('css')
 <style>
-    /* Estilos Pastel y Modernos */
-    .bg-pastel-purple { background: linear-gradient(135deg, #6a1b9a, #8e24aa); }
-    .bg-pastel-purple-light { background-color: #f3e5f5; color: #7b1fa2; }
-    .bg-pastel-blue-light { background-color: #e3f2fd; }
-    .text-pastel-purple { color: #6a1b9a; }
-    .btn-pastel-gray { background-color: #f8f9fa; color: #6c757d; border: 1px solid #dee2e6; border-radius: 10px; }
+    .text-pastel-purple { color: #9B86BD !important; }
+    .bg-pastel-purple { background-color: #9B86BD !important; color: white; }
+    .bg-pastel-blue { background-color: #778DA9 !important; }
+    .btn-pastel-gray { background-color: #E0E1DD; color: #415A77; border: none; }
+    .btn-pastel-gray:hover { background-color: #d1d2cd; }
     
-    .bg-light-hover:hover { background-color: #f1f3f5; }
-    .transition-all { transition: all 0.3s ease; }
-    
-    /* Efecto de elevación para botones */
-    .hover-lift:hover { transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.12); }
-    
-    .border-right-md { border-right: 1px solid #eee; }
-    @media (max-width: 768px) { .border-right-md { border-right: none; border-bottom: 1px solid #eee; padding-bottom: 10px; margin-bottom: 10px; } }
-
-    /* Inputs estilo minimalista */
-    .form-control:focus { box-shadow: none; border-color: #6a1b9a; }
-    input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+    .card-pastel { border-radius: 12px; border: none; }
+    .form-control-pastel { border-radius: 8px; border: 1px solid #E0E1DD; padding: 0.6rem; }
+    .form-control-pastel:focus { border-color: #9B86BD; box-shadow: 0 0 0 0.2rem rgba(155, 134, 189, 0.15); }
+    .bg-light-soft { background-color: #F8F9FA; }
+    .border-right { border-right: 1px solid #dee2e6 !important; }
 
     /* Mayúsculas forzadas visualmente */
     .text-uppercase { text-transform: uppercase; }
+
+    @media (max-width: 768px) {
+        .border-right { border-right: none !important; border-bottom: 1px solid #dee2e6; margin-bottom: 10px; padding-bottom: 10px; }
+    }
 </style>
 @stop
 
@@ -182,6 +172,7 @@
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
     $(document).ready(function() {
+        
         // 1. FORZAR MAYÚSCULAS EN TIEMPO REAL
         $(document).on('input', 'input[type="text"], textarea', function() {
             let start = this.selectionStart;
@@ -190,52 +181,76 @@
             this.setSelectionRange(start, end);
         });
 
-        const pesoInput = $('#pesoInput');
-        const tallaInput = $('#tallaInput');
-        const imcInput = $('#imcInput');
-        const imcText = $('#imcText');
-        const imcBadge = $('#imcBadge');
-        const catInput = $('#categoriaImcInput');
+        // 2. Restricción de caracteres para Presión Arterial
+        $('#presionIn').on('keypress', function(e) {
+            var charCode = (e.which) ? e.which : e.keyCode;
+            if (charCode != 47 && (charCode < 48 || charCode > 57)) {
+                e.preventDefault();
+                return false;
+            }
+        });
 
+        // 3. Cálculo de IMC
         function calcularIMC() {
-            let peso = parseFloat(pesoInput.val());
-            let talla = parseFloat(tallaInput.val()) / 100;
-            
+            let peso = parseFloat($('#pesoInput').val());
+            let talla = parseFloat($('#tallaInput').val()) / 100;
+            let imcInput = $('#imcInput');
+            let badge = $('#imcBadge');
+            let catInput = $('#categoriaImcInput');
+
             if (peso > 0 && talla > 0) {
-                let imc = (peso / (talla * talla)).toFixed(1);
+                let imc = (peso / (talla * talla)).toFixed(2);
                 imcInput.val(imc);
-                imcText.text(imc);
+                
+                let label = 'NORMAL';
+                let color = 'bg-success';
 
-                let badgeClass = 'badge-success';
-                let categoria = 'PESO NORMAL';
+                if (imc < 18.5) { label = 'BAJO PESO'; color = 'bg-warning text-dark'; }
+                else if (imc >= 25 && imc < 30) { label = 'SOBREPESO'; color = 'bg-warning text-dark'; }
+                else if (imc >= 30) { label = 'OBESIDAD'; color = 'bg-danger text-white'; }
 
-                if (imc < 18.5) { badgeClass = 'badge-warning'; categoria = 'BAJO PESO'; }
-                else if (imc >= 25 && imc < 30) { badgeClass = 'badge-warning'; categoria = 'SOBREPESO'; }
-                else if (imc >= 30) { badgeClass = 'badge-danger'; categoria = 'OBESIDAD'; }
-
-                imcBadge.removeClass('badge-success badge-warning badge-danger').addClass(badgeClass).text(categoria);
-                catInput.val(categoria);
+                badge.text(label).removeClass('badge-secondary bg-success bg-warning bg-danger text-dark text-white').addClass(color);
+                catInput.val(label);
+            } else {
+                imcInput.val('');
+                badge.text('-').removeClass('bg-success bg-warning bg-danger text-dark text-white').addClass('badge-secondary');
             }
         }
 
-        pesoInput.on('input', calcularIMC);
-        tallaInput.on('input', calcularIMC);
-        calcularIMC(); // Inicial al cargar
+        $('#pesoInput, #tallaInput').on('input', calcularIMC);
+        calcularIMC(); // Ejecutar al cargar para mostrar el IMC actual
 
-        // CONFIRMACIÓN
+        // 4. SweetAlert2: Confirmación de Actualización
         $('#constantesForm').on('submit', function(e) {
             e.preventDefault();
+            
+            // Validación de formato de Presión Arterial
+            let presionVal = $('#presionIn').val();
+            let regexPresion = /^[0-9\/]+$/;
+
+            if (presionVal !== "" && !regexPresion.test(presionVal)) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'FORMATO INCORRECTO',
+                    text: 'LA PRESIÓN SOLO PERMITE NÚMEROS Y "/"',
+                    confirmButtonColor: '#9B86BD'
+                });
+                return false;
+            }
+
             Swal.fire({
-                title: '¿Guardar actualización?',
-                text: "Los datos del paciente serán actualizados permanentemente.",
+                title: '¿CONFIRMAR ACTUALIZACIÓN?',
+                text: "SE MODIFICARÁN LOS PARÁMETROS CLÍNICOS DEL PACIENTE.",
                 icon: 'question',
                 showCancelButton: true,
-                confirmButtonColor: '#ffc107',
-                cancelButtonColor: '#6c757d',
-                confirmButtonText: 'Sí, actualizar',
-                cancelButtonText: 'Revisar'
+                confirmButtonColor: '#9B86BD',
+                cancelButtonColor: '#778DA9',
+                confirmButtonText: '<i class="fas fa-check"></i> SÍ, ACTUALIZAR',
+                cancelButtonText: 'REVISAR'
             }).then((result) => {
-                if (result.isConfirmed) { this.submit(); }
+                if (result.isConfirmed) {
+                    this.submit();
+                }
             });
         });
     });

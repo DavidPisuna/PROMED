@@ -8,9 +8,6 @@
         <i class="fas fa-file-medical mr-2"></i>Detalle del Certificado
     </h1>
     <div>
-        <a href="{{ route('admin.certificados.pdf', $certificado) }}" class="btn btn-danger shadow-sm mr-2">
-            <i class="fas fa-file-pdf mr-1"></i> Exportar PDF
-        </a>
         <a href="{{ route('admin.certificados.edit', $certificado) }}" class="btn btn-warning shadow-sm mr-2">
             <i class="fas fa-edit mr-1"></i> Editar
         </a>

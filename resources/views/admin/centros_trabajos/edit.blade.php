@@ -4,9 +4,9 @@
 
 @section('content_header')
 <div class="d-flex justify-content-between align-items-center flex-wrap">
-    <h1 class="text-pastel-purple font-weight-bold">
-        <i class="fas fa-edit mr-2"></i>Editar Centro de Trabajo
-    </h1>
+    <h4 class="text-pastel-purple font-weight-bold">
+        <i class="fas fa-edit mr-2"></i>H. ACTIVIDAD LABORAL/ INCIDENTES/ACCIDENTES / ENFERMEDADES OCUPACIONALES
+    </h4>
     <a href="{{ route('admin.registros.show', $registro) }}" class="btn btn-pastel-gray shadow-sm">
         <i class="fas fa-arrow-left mr-1"></i> Volver al registro
     </a>

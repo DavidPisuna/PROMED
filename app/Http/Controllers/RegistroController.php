@@ -8,6 +8,8 @@ use App\Models\Empresa;
 use App\Models\Paciente;
 use App\Models\Doctor;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+
 
 class RegistroController extends Controller
 {
@@ -155,5 +157,88 @@ class RegistroController extends Controller
 
         return $pdf->stream('registro_'.$registro->id.'.pdf');
     }
+
+    public function duplicar(Registro $registro)
+    {
+        DB::transaction(function () use ($registro) {
+
+            $registro->load([
+                'antecedentePatologico',
+                'antecedenteGineco',
+                'antecedenteMasculino',
+                'consumoSustancia.actividadesFisicas',
+                'consumoSustancia.medicacionesHabituales',
+                'constanteVital',
+                'examenesFisicos',
+                'puestos.actividades.factoresRiesgo',
+                'centros',
+                'actividadesExtras',
+                'resultadosExamenes',
+                'diagnosticos',
+                'aptitudesMedicas',
+                'retirosEvaluaciones',
+            ]);
+
+            // 🔹 Duplicar REGISTRO (VISITA)
+            $nuevoRegistro = $registro->replicate();
+            $nuevoRegistro->fecha_ingreso = now(); // o fecha_periodica según tipo
+            $nuevoRegistro->save();
+
+            // 🔹 HAS ONE
+            foreach ([
+                'antecedentePatologico',
+                'antecedenteGineco',
+                'antecedenteMasculino',
+                'constanteVital'
+            ] as $relacion) {
+                if ($registro->$relacion) {
+                    $nuevo = $registro->$relacion->replicate();
+                    $nuevo->registro_id = $nuevoRegistro->id;
+                    $nuevo->save();
+                }
+            }
+
+            // 🔹 CONSUMO + SUBRELACIONES
+            if ($registro->consumoSustancia) {
+                $consumo = $registro->consumoSustancia->replicate();
+                $consumo->registro_id = $nuevoRegistro->id;
+                $consumo->save();
+
+                foreach ($registro->consumoSustancia->actividadesFisicas as $af) {
+                    $nueva = $af->replicate();
+                    $nueva->consumo_sustancia_id = $consumo->id;
+                    $nueva->save();
+                }
+
+                foreach ($registro->consumoSustancia->medicacionesHabituales as $mh) {
+                    $nueva = $mh->replicate();
+                    $nueva->consumo_sustancia_id = $consumo->id;
+                    $nueva->save();
+                }
+            }
+
+            // 🔹 HAS MANY
+            foreach ([
+                'examenesFisicos',
+                'centros',
+                'actividadesExtras',
+                'resultadosExamenes',
+                'diagnosticos',
+                'aptitudesMedicas',
+                'retirosEvaluaciones'
+            ] as $relacion) {
+                foreach ($registro->$relacion as $item) {
+                    $nuevo = $item->replicate();
+                    $nuevo->registro_id = $nuevoRegistro->id;
+                    $nuevo->save();
+                }
+            }
+        });
+
+        return redirect()
+            ->route('admin.pacientes.vistaIndividual', $registro->paciente_id)
+            ->with('success', 'Visita duplicada correctamente');
+    }
+
 
 }

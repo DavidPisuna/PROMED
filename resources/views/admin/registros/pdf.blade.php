@@ -302,6 +302,7 @@
             <th>ATENCIÓN PRIORITARIA</th>
             <th>SEXO</th>
             <th>FECHA DE NACIMIENTO</th>
+            <th>EDAD</th>
             <th>GRUPO SANGUÍNEO</th>
             <th>LATERALIDAD</th>
         </tr>
@@ -327,6 +328,7 @@
                     N/A
                 @endif
             </td>
+            <td class="text-center">{{$registro->paciente->edad ?? 'N/A' }}</td>
             <td class="text-center">{{ $registro->paciente->grupo_sanguineo ?? 'N/A' }}</td>
             <td class="text-center">{{ $registro->paciente->lateralidad ?? 'N/A' }}</td>
         </tr>

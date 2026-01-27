@@ -5,7 +5,7 @@
 @section('content_header')
 <div class="d-flex justify-content-between align-items-center flex-wrap">
     <h1 class="text-pastel-purple font-weight-bold">
-        <i class="fas fa-notes-medical mr-2"></i>Antecedentes Patológicos
+        <i class="fas fa-notes-medical mr-2"></i>C. ANTECEDENTES PERSONALES
     </h1>
     <a href="{{ route('admin.registros.show', $registro->id) }}" class="btn btn-pastel-gray shadow-sm">
         <i class="fas fa-arrow-left mr-1"></i> Volver al Registro

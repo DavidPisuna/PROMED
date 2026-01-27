@@ -1033,7 +1033,7 @@
     <div class="card card-pastel-info shadow-soft mb-4">
         <div class="card-header bg-gradient-pastel-blue text-white d-flex justify-content-between align-items-center">
             <h5 class="mb-0">
-                <i class="fas fa-building mr-2"></i>Centros de Trabajo
+                <i class="fas fa-building mr-2"></i>H. ACTIVIDAD LABORAL/ INCIDENTES/ACCIDENTES / ENFERMEDADES OCUPACIONALES
             </h5>
             <a href="{{ route('admin.centros_trabajos.create', $registro->id) }}" class="btn btn-pastel-green btn-sm">
                 <i class="fas fa-plus mr-1"></i> Agregar Centro
@@ -1322,11 +1322,11 @@
         </div>
     </div>
 
-    {{-- RESULTADOS DE EXÁMENES --}}
+    {{-- J. RESULTADOS DE EXÁMENES GENERALES Y ESPECÍFICOS DE ACUERDO AL RIESGO Y PUESTO DE TRABAJO (IMAGEN, LABORATORIO Y OTROS) --}}
     <div class="card card-pastel-primary shadow-soft mb-4">
         <div class="card-header bg-gradient-pastel-blue text-white d-flex justify-content-between align-items-center">
             <h5 class="mb-0">
-                <i class="fas fa-vials mr-2"></i>Resultados de Exámenes
+                <i class="fas fa-vials mr-2"></i>J. RESULTADOS DE EXÁMENES GENERALES Y ESPECÍFICOS DE ACUERDO AL RIESGO Y PUESTO DE TRABAJO (IMAGEN, LABORATORIO Y OTROS)
             </h5>
             <a href="{{ route('admin.resultados_examenes.create', $registro->id) }}" class="btn btn-pastel-green">
                 <i class="fas fa-plus mr-2"></i> Agregar Nuevo Resultado

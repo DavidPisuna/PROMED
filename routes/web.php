@@ -98,6 +98,8 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     ->name('admin.pacientes.registros');
     Route::get('/admin/registros/{registro}/pdf', [App\Http\Controllers\RegistroController::class, 'pdf'])
     ->name('admin.registros.pdf');
+    Route::get('/registros/{registro}/duplicar',[App\Http\Controllers\RegistroController::class, 'duplicar'])->name('admin.registros.duplicar');
+
 
 });
 

@@ -20,7 +20,8 @@ return new class extends Migration
             $table->decimal('temperatura', 4, 2)->nullable()->comment('Temperatura en °C');
 
             // PRESIÓN ARTERIAL
-            $table->integer('presion_arterial')->nullable()->comment('Presión Arterial (mmHg)');
+            
+            $table->string('presion_arterial', 20)->nullable()->comment('Presión Arterial (mmHg)');
 
             $table->integer('frecuencia_cardiaca')->nullable()->comment('Frecuencia cardíaca en lat/min');
             $table->integer('frecuencia_respiratoria')->nullable()->comment('Frecuencia respiratoria en fr/min');

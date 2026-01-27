@@ -5,7 +5,7 @@
 @section('content_header')
 <div class="d-flex justify-content-between align-items-center flex-wrap">
     <h1 class="text-pastel-purple font-weight-bold">
-        <i class="fas fa-clipboard-check mr-2"></i>Aptitud Médica
+        <i class="fas fa-clipboard-check mr-2"></i>L. APTITUD MÉDICA PARA EL TRABAJO
     </h1>
     <a href="{{ route('admin.registros.show', $registro) }}" class="btn btn-pastel-gray shadow-sm">
         <i class="fas fa-arrow-left mr-1"></i> Volver al registro
@@ -88,13 +88,21 @@
 
                 {{-- Observaciones y Recomendaciones --}}
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <div class="form-group mb-4">
                             <label class="form-label font-weight-bold"><i class="fas fa-comment-medical mr-2 text-info"></i>Observaciones Médicas</label>
                             <textarea name="observaciones" rows="4" class="form-control form-control-pastel text-uppercase" placeholder="DESCRIBA LOS HALLAZGOS CLÍNICOS..."></textarea>
                         </div>
                     </div>
-                    <div class="col-md-6">
+                </div>
+                <div class="d-flex justify-content-between align-items-center flex-wrap">
+                    <h4 class="text-pastel-purple font-weight-bold">
+                        <i class="fas fa-clipboard-check mr-2"></i>M. RECOMENDACIONES Y/O TRATAMIENTO
+                    </h4>
+                </div>
+                <br>
+                  <div class="row">
+                    <div class="col-md-12">
                         <div class="form-group mb-4">
                             <label class="form-label font-weight-bold"><i class="fas fa-prescription-bottle-alt mr-2 text-success"></i>Recomendaciones y Tratamiento</label>
                             <textarea name="recomendaciones_tratamiento" rows="4" class="form-control form-control-pastel text-uppercase" placeholder="INDIQUE PLAN DE SEGUIMIENTO O MEDICACIÓN..."></textarea>
@@ -112,6 +120,8 @@
         </div>
     </div>
 </div>
+
+
 @stop
 
 @section('css')

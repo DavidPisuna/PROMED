@@ -4,9 +4,9 @@
 
 @section('content_header')
 <div class="d-flex justify-content-between align-items-center flex-wrap">
-    <h1 class="text-pastel-purple font-weight-bold">
-        <i class="fas fa-edit mr-2"></i>Editar Resultado de Examen
-    </h1>
+    <h4 class="text-pastel-purple font-weight-bold">
+        <i class="fas fa-vials mr-2"></i>J. RESULTADOS DE EXÁMENES GENERALES Y ESPECÍFICOS DE ACUERDO AL RIESGO Y PUESTO DE TRABAJO (IMAGEN, LABORATORIO Y OTROS)
+    </h4>
     <a href="{{ route('admin.registros.show', $registro) }}" class="btn btn-pastel-gray shadow-sm">
         <i class="fas fa-arrow-left mr-1"></i> Volver al registro
     </a>

@@ -1,12 +1,12 @@
 @extends('adminlte::page')
 
-@section('title', 'Editar Antecedentes Patológicos')
+@section('title', 'C. ANTECEDENTES PERSONALES')
 
 @section('content_header')
 <div class="d-flex justify-content-between align-items-center flex-wrap">
     <h1 class="text-pastel-purple font-weight-bold">
         <i class="fas fa-notes-medical mr-2"></i>
-        Editar Antecedentes Patológicos
+        C. ANTECEDENTES PERSONALES
     </h1>
 
     <a href="{{ route('admin.registros.show', $antecedente->registro_id) }}"

@@ -5,7 +5,7 @@
 @section('content_header')
 <div class="d-flex justify-content-between align-items-center flex-wrap">
     <h1 class="text-pastel-purple font-weight-bold">
-        <i class="fas fa-briefcase mr-2"></i>Editar Puesto de Trabajo
+        <i class="fas fa-briefcase mr-2"></i>G. FACTORES DE RIESGO DEL TRABAJO ACTUAL
     </h1>
     <a href="{{ route('admin.registros.show', $registro) }}" class="btn btn-pastel-gray shadow-sm">
         <i class="fas fa-arrow-left mr-1"></i> Volver al Registro

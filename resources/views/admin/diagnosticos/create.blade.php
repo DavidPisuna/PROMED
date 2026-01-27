@@ -5,7 +5,7 @@
 @section('content_header')
 <div class="d-flex justify-content-between align-items-center flex-wrap">
     <h1 class="text-pastel-purple font-weight-bold">
-        <i class="fas fa-stethoscope mr-2"></i>Agregar Diagnósticos
+        <i class="fas fa-stethoscope mr-2"></i>K. DIAGNÓSTICO                                         PRE:PRESUNTIVO DEF: DEFINITIVO
     </h1>
     <a href="{{ route('admin.registros.show', $registro) }}" class="btn btn-pastel-gray shadow-sm">
         <i class="fas fa-arrow-left mr-1"></i> Volver al registro

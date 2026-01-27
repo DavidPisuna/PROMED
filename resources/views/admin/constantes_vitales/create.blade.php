@@ -5,7 +5,7 @@
 @section('content_header')
 <div class="d-flex justify-content-between align-items-center flex-wrap">
     <h1 class="text-pastel-purple font-weight-bold">
-        <i class="fas fa-heartbeat mr-2"></i>Registrar Constantes Vitales
+        <i class="fas fa-heartbeat mr-2"></i>D. ENFERMEDAD O PROBLEMA ACTUAL
     </h1>
     <a href="{{ route('admin.registros.show', $registro) }}" class="btn btn-pastel-gray shadow-sm">
         <i class="fas fa-arrow-left mr-1"></i> Volver al registro
@@ -15,7 +15,7 @@
 
 @section('content')
 <div class="container-fluid pb-4">
-    {{-- 🔹 CARD INFORMATIVA DEL PACIENTE (Estilo Resumen Pastel) --}}
+    {{-- 🔹 CARD INFORMATIVA DEL PACIENTE --}}
     <div class="card card-pastel shadow-sm mb-4">
         <div class="card-header bg-pastel-blue py-2">
             <h6 class="mb-0 font-weight-bold text-white"><i class="fas fa-user-circle mr-2"></i>Información del Paciente</h6>
@@ -45,6 +45,24 @@
         </div>
     </div>
 
+    {{-- SECCIÓN 3: EVALUACIÓN --}}
+    <div class="row">
+        <div class="col-12">
+            <label class="form-label font-weight-bold text-pastel-blue">
+                <i class="fas fa-stethoscope mr-1"></i> OBSERVACIONES O ENFERMEDAD ACTUAL
+            </label>
+            <textarea name="enfermedad_actual" form="constantesForm" class="form-control form-control-pastel shadow-sm" rows="3" placeholder="Ej: Paciente presenta cefalea leve y fatiga...">{{ old('enfermedad_actual') }}</textarea>
+        </div>
+    </div>
+
+    <br>
+
+    <div class="d-flex justify-content-between align-items-center flex-wrap">
+        <h3 class="text-pastel-purple font-weight-bold">
+             <i class="fas fa-stethoscope mr-1"></i>E. CONSTANTES VITALES Y ANTROPOMETRÍA 
+        </h3> 
+    </div>
+               
     {{-- 🔹 FORMULARIO DE CONSTANTES VITALES --}}
     <div class="card card-pastel shadow-lg">
         <div class="card-header bg-white border-bottom">
@@ -115,16 +133,6 @@
                         <span id="imcBadge" class="badge badge-pill badge-secondary mt-2 p-2 w-100 shadow-sm">-</span>
                     </div>
                 </div>
-
-                {{-- SECCIÓN 3: EVALUACIÓN --}}
-                <div class="row">
-                    <div class="col-12">
-                        <label class="form-label font-weight-bold text-pastel-blue">
-                            <i class="fas fa-stethoscope mr-1"></i> OBSERVACIONES O ENFERMEDAD ACTUAL
-                        </label>
-                        <textarea name="enfermedad_actual" class="form-control form-control-pastel shadow-sm" rows="3" placeholder="Ej: Paciente presenta cefalea leve y fatiga...">{{ old('enfermedad_actual') }}</textarea>
-                    </div>
-                </div>
             </div>
 
             <div class="card-footer bg-white text-right py-3">
@@ -142,7 +150,6 @@
 
 @section('css')
 <style>
-    /* Estilos Pastel Coincidentes con la otra vista */
     .text-pastel-purple { color: #9B86BD !important; }
     .bg-pastel-purple { background-color: #9B86BD !important; color: white; }
     .bg-pastel-blue { background-color: #778DA9 !important; }
@@ -150,16 +157,11 @@
     .btn-pastel-purple:hover { background-color: #836ba8; transform: translateY(-1px); color: white; }
     .btn-pastel-gray { background-color: #E0E1DD; color: #415A77; border: none; }
     .btn-pastel-gray:hover { background-color: #d1d2cd; }
-    
     .card-pastel { border-radius: 12px; border: none; }
     .form-control-pastel { border-radius: 8px; border: 1px solid #E0E1DD; padding: 0.6rem; }
     .form-control-pastel:focus { border-color: #9B86BD; box-shadow: 0 0 0 0.2rem rgba(155, 134, 189, 0.15); }
     .bg-light-soft { background-color: #F8F9FA; }
     .border-right { border-right: 1px solid #dee2e6 !important; }
-
-    /* Alertas de rango (opcional si quieres resaltar campos) */
-    .border-warning-pastel { border: 2px solid #ffc107 !important; }
-
     @media (max-width: 768px) {
         .border-right { border-right: none !important; border-bottom: 1px solid #dee2e6; margin-bottom: 10px; padding-bottom: 10px; }
     }
@@ -170,6 +172,17 @@
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
     $(document).ready(function() {
+        
+        // 1. Restricción de caracteres para Presión Arterial (Solo números y /)
+        $('#presionIn').on('keypress', function(e) {
+            var charCode = (e.which) ? e.which : e.keyCode;
+            // 48-57 son números, 47 es la barra "/"
+            if (charCode != 47 && (charCode < 48 || charCode > 57)) {
+                e.preventDefault();
+                return false;
+            }
+        });
+
         // --- Cálculo de IMC ---
         function calcularIMC() {
             let peso = parseFloat($('#pesoInput').val());
@@ -180,14 +193,11 @@
             if (peso > 0 && talla > 0) {
                 let imc = (peso / (talla * talla)).toFixed(2);
                 imcInput.val(imc);
-                
                 let label = 'Normal';
                 let color = 'bg-success';
-
                 if (imc < 18.5) { label = 'Bajo Peso'; color = 'bg-warning text-dark'; }
                 else if (imc >= 25 && imc < 30) { label = 'Sobrepeso'; color = 'bg-warning text-dark'; }
                 else if (imc >= 30) { label = 'Obesidad'; color = 'bg-danger text-white'; }
-
                 badge.text(label).removeClass('badge-secondary bg-success bg-warning bg-danger text-dark text-white').addClass(color);
             } else {
                 imcInput.val('');
@@ -197,16 +207,29 @@
 
         $('#pesoInput, #tallaInput').on('input', calcularIMC);
 
-        // --- SweetAlert: Guardar con Validación de Rangos ---
+        // --- SweetAlert: Guardar con Validación de Presión y Rangos ---
         $('#constantesForm').on('submit', function(e) {
             e.preventDefault();
             
+            // Validación de formato de Presión Arterial mediante Regex
+            let presionVal = $('#presionIn').val();
+            let regexPresion = /^[0-9\/]+$/;
+
+            if (presionVal !== "" && !regexPresion.test(presionVal)) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Formato de Presión Incorrecto',
+                    text: 'Solo se permiten números y el carácter "/" (Ej: 120/80)',
+                    confirmButtonColor: '#9B86BD'
+                });
+                return false;
+            }
+
             let alertas = [];
             let temp = parseFloat($('#tempIn').val());
             let sat = parseFloat($('#satIn').val());
             let fc = parseFloat($('#fcIn').val());
 
-            // Validaciones rápidas de rangos
             if (temp > 37.5) alertas.push("<li>Temperatura elevada (Fiebre)</li>");
             if (temp < 35.5 && temp > 0) alertas.push("<li>Temperatura baja (Hipotermia)</li>");
             if (sat < 95 && sat > 0) alertas.push("<li>Saturación de oxígeno baja</li>");

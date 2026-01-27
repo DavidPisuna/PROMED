@@ -6,7 +6,7 @@
 <div class="d-flex justify-content-between align-items-center flex-wrap p-2">
     <div>
         <h1 class="text-pastel-purple font-weight-bold mb-0">
-            <i class="fas fa-stethoscope mr-2"></i>Edición de Examen Físico
+            <i class="fas fa-stethoscope mr-2"></i>F. EXAMEN FÍSICO REGIONAL
         </h1>
         <p class="text-muted mb-0">Registro de hallazgos y anomalías por región anatómica</p>
     </div>

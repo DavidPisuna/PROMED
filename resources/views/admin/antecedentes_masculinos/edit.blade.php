@@ -107,7 +107,7 @@
                                     <input type="text" name="examen_realizado[]" class="form-control form-control-pastel text-uppercase" value="{{ $examen->examen_realizado }}" required>
                                 </div>
                                 <div class="col-md-2">
-                                    <label class="small font-weight-bold text-muted">TIEMPO (MESES)</label>
+                                    <label class="small font-weight-bold text-muted">TIEMPO (AÑOS)</label>
                                     <input type="number" name="tiempo_meses[]" class="form-control form-control-pastel" value="{{ $examen->tiempo_meses }}">
                                 </div>
                                 <div class="col-md-5">

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class Paciente extends Model
 {
@@ -58,5 +59,16 @@ class Paciente extends Model
     public function registros()
     {
         return $this->hasMany(Registro::class); // Asumiendo paciente_id como FK
+    }
+
+    protected $appends = ['edad'];
+
+    public function getEdadAttribute()
+    {
+        if (!$this->fecha_nacimiento) {
+            return null;
+        }
+
+        return Carbon::parse($this->fecha_nacimiento)->age;
     }
 }
