@@ -149,6 +149,7 @@
                                 <form id="delete-form-{{ $registro->id }}" action="{{ route('admin.registros.destroy', $registro) }}" method="POST" class="d-none">@csrf @method('DELETE')</form>
                             </td>
                         </tr>
+                        
                         @empty
                         <tr>
                             <td colspan="6" class="text-center py-5 bg-pastel-light">
