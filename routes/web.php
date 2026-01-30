@@ -79,7 +79,7 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/admin/pacientes/{paciente}', [App\Http\Controllers\PacienteController::class, 'update'])->name('admin.pacientes.update');
     Route::patch('/admin/pacientes/{paciente}/toggle-activo', [App\Http\Controllers\PacienteController::class, 'toggleActivo'])->name('admin.pacientes.toggleActivo');
     Route::delete('/admin/pacientes/{paciente}', [App\Http\Controllers\PacienteController::class, 'destroy'])->name('admin.pacientes.destroy');
-    Route::get('/admin/pacientes/{paciente}/registros', [App\Http\Controllers\PacienteController::class, 'vistaIndividual'])->name('admin.pacientes.vistaIndividual');
+    Route::get('/admin/pacientes/{paciente}/registros', [App\Http\Controllers\PacienteController::class, 'vista_individual'])->name('admin.pacientes.vista_individual');
     
 });
 

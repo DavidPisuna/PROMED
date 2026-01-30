@@ -132,6 +132,6 @@ class PacienteController extends Controller
                          ->orderBy('created_at', 'desc')
                          ->paginate(5);
 
-        return view('admin.pacientes.vistaIndividual', compact('paciente', 'registros'));
+        return view('admin.vista_individual.', compact('paciente', 'registros'));
     }
 }
