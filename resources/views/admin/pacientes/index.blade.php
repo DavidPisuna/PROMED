@@ -217,9 +217,7 @@
                             </td>
                             <td class="text-center">
                                 
-                                    <a href="{{ route('admin.pacientes.vistaIndividual', $paciente) }}" class="btn btn-white border-pastel shadow-xs" title="Registros">
-                                        <i class="fas fa-folder-open text-info"></i>
-                                    </a>
+        
                                     <a href="{{ route('admin.certificados.byPaciente', $paciente) }}" class="btn btn-white border-pastel shadow-xs" title="Certificados">
                                         <i class="fas fa-file-medical text-success"></i>
                                     </a>
@@ -228,6 +226,9 @@
                                     </a>
                                     <a href="{{ route('admin.notas.byPaciente', $paciente) }}" class="btn btn-white border-pastel shadow-xs" title="Notas">
                                         <i class="fas fa-pen-fancy text-warning"></i>
+                                    </a>
+                                    <a href="{{ route('admin.pacientes.vistaIndividual', $paciente) }}" class="btn btn-white border-pastel shadow-xs" title="Registros">
+                                        <i class="fas fa-folder-open text-info"></i>
                                     </a>
                             </td>
                             <td class="text-center">
