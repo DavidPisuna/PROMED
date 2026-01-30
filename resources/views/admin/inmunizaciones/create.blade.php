@@ -138,6 +138,7 @@
                                 <td>
                                     <input type="text" name="vacunas[0][establecimiento_salud]" class="form-control form-control-sm text-uppercase mb-1" placeholder="Establecimiento">
                                     <input type="text" name="vacunas[0][responsable_vacunacion]" class="form-control form-control-sm text-uppercase" placeholder="Responsable">
+                                    <input type="text" name="vacunas[0][observaciones]" class="form-control form-control-sm text-uppercase" placeholder="Observaciones">
                                 </td>
                                 <td class="text-center">
                                     <div class="custom-control custom-checkbox mt-2">
@@ -212,6 +213,7 @@
                 <td>
                     <input type="text" name="vacunas[${rowCount}][establecimiento_salud]" class="form-control form-control-sm text-uppercase mb-1" placeholder="Establecimiento">
                     <input type="text" name="vacunas[${rowCount}][responsable_vacunacion]" class="form-control form-control-sm text-uppercase" placeholder="Responsable">
+                    <input type="text" name="vacunas[${rowCount}][observaciones]" class="form-control form-control-sm text-uppercase" placeholder="Observaciones">
                 </td>
                 <td class="text-center">
                     <div class="custom-control custom-checkbox mt-2">
