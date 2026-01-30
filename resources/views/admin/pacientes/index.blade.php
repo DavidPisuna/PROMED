@@ -243,6 +243,11 @@
                                 title="Ver certificados emitidos">
                                     <i class="fas fa-microscope mr-1"></i> Certificados
                                 </a>
+                                <a href="{{ route('admin.inmunizaciones.byPaciente', $paciente) }}"
+                                    class="btn btn-outline-success btn-sm">
+                                    <i class="fas fa-syringe"></i> Inmunizaciones
+                                </a>
+
                             </td>
                             <td class="text-center">
                                 <div class="btn-group btn-group-pastel" role="group">

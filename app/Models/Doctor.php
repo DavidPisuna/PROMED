@@ -38,4 +38,11 @@ class Doctor extends Model
     {
         return $this->hasMany(Registro::class, 'doctor_id');
     }
+    
+
+    public function inmunizaciones()
+    {
+        return $this->hasMany(Inmunizacion::class);
+    }
+
 }

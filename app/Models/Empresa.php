@@ -38,4 +38,12 @@ class Empresa extends Model
     {
         return $query->where('activo', false);
     }
+
+
+
+    public function inmunizaciones()
+    {
+        return $this->hasMany(Inmunizacion::class);
+    }
+
 }

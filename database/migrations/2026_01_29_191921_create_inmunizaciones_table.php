@@ -1,0 +1,43 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('inmunizaciones', function (Blueprint $table) {
+                $table->id();
+                // 🔗 Relaciones obligatorias (igual que certificados)
+                $table->foreignId('empresa_id')
+                    ->constrained('empresas')
+                    ->onDelete('cascade');
+
+                $table->foreignId('paciente_id')
+                    ->constrained('pacientes')
+                    ->onDelete('cascade');
+
+                $table->foreignId('doctor_id')
+                    ->constrained('doctores')
+                    ->onDelete('cascade');
+
+                // 📄 Observación general
+                $table->text('observaciones_generales')->nullable();
+
+                $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('inmunizaciones');
+    }
+};

@@ -342,5 +342,62 @@ Route::prefix('admin')
     });
 });
 
+ // INMUNIZACIONES
+// INMUNIZACIONES
+use App\Http\Controllers\InmunizacionController;
+
+Route::prefix('admin/inmunizaciones')
+    ->name('admin.inmunizaciones.')
+    ->middleware(['auth'])
+    ->group(function () {
+
+        // 📋 Listado general
+        Route::get('/', 
+            [InmunizacionController::class, 'index']
+        )->name('index');
+
+        // 👤 Inmunizaciones por paciente
+        Route::get('/paciente/{paciente}', 
+            [InmunizacionController::class, 'byPaciente']
+        )->name('byPaciente');
+
+        // ➕ Crear desde paciente
+        Route::get('/paciente/{paciente}/crear', 
+            [InmunizacionController::class, 'createFromPaciente']
+        )->name('createFromPaciente');
+
+        // 💾 Guardar
+        Route::post('/', 
+            [InmunizacionController::class, 'store']
+        )->name('store');
+
+        // 👁 Mostrar
+        Route::get('/{inmunizacion}', 
+            [InmunizacionController::class, 'show']
+        )->name('show');
+
+        // ✏️ Editar
+        Route::get('/{inmunizacion}/edit', 
+            [InmunizacionController::class, 'edit']
+        )->name('edit');
+
+        // 🔄 Actualizar
+        Route::put('/{inmunizacion}', 
+            [InmunizacionController::class, 'update']
+        )->name('update');
+
+        // 🗑 Eliminar
+        Route::delete('/{inmunizacion}', 
+            [InmunizacionController::class, 'destroy']
+        )->name('destroy');
+
+        // 📄 PDF
+        Route::get('/{inmunizacion}/pdf', 
+            [InmunizacionController::class, 'pdf']
+        )->name('pdf');
+    });
+
+
+
 
 require __DIR__.'/auth.php';
