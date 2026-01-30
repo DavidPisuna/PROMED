@@ -96,9 +96,10 @@ Route::prefix('admin')->middleware('auth')->group(function () {
         ->name('admin.pacientes.update');
 
     // Activar / desactivar paciente
-    Route::put('/pacientes/{paciente}/toggle',
-            [PacienteController::class, 'toggleActivo']
-        )->name('admin.pacientes.toggleActivo');
+    Route::put('/pacientes/{paciente}/toggle', 
+                [PacienteController::class, 'toggleActivo']
+            )->name('admin.pacientes.toggleActivo'); // <--- Agregamos "Activo" al final
+
 
 
     // Vista clínica / historial del paciente

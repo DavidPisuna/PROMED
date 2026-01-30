@@ -204,7 +204,7 @@
                                     </span>
                                     <form action="{{ route('admin.pacientes.toggleActivo', $paciente) }}" method="POST" class="d-inline">
                                         @csrf
-                                        @method('PATCH')
+                                        @method('PUT')
                                         <button type="button" class="btn btn-sm {{ $paciente->activo ? 'btn-outline-pastel-orange' : 'btn-outline-pastel-green' }} toggle-estado"
                                                 data-paciente-id="{{ $paciente->id }}"
                                                 data-paciente-nombre="{{ $paciente->nombre_completo }}"
