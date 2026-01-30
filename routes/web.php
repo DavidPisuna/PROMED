@@ -66,33 +66,58 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
         ->name('admin.sucursales.toggle');
 });
 
-//PACIENTES
-
-Route::middleware(['auth'])->group(function () {
-    // Rutas principales de pacientes
-    Route::get('/admin/pacientes', [App\Http\Controllers\PacienteController::class, 'index'])->name('admin.pacientes.index');
-    Route::get('/admin/pacientes/inactivos', [App\Http\Controllers\PacienteController::class, 'inactivos'])->name('admin.pacientes.inactivos');
-    Route::get('/admin/pacientes/create', [App\Http\Controllers\PacienteController::class, 'create'])->name('admin.pacientes.create');
-    Route::post('/admin/pacientes', [App\Http\Controllers\PacienteController::class, 'store'])->name('admin.pacientes.store');
-    Route::get('/admin/pacientes/{paciente}', [App\Http\Controllers\PacienteController::class, 'show'])->name('admin.pacientes.show');
-    Route::get('/admin/pacientes/{paciente}/edit', [App\Http\Controllers\PacienteController::class, 'edit'])->name('admin.pacientes.edit');
-    Route::put('/admin/pacientes/{paciente}', [App\Http\Controllers\PacienteController::class, 'update'])->name('admin.pacientes.update');
-    Route::patch('/admin/pacientes/{paciente}/toggle-activo', [App\Http\Controllers\PacienteController::class, 'toggleActivo'])->name('admin.pacientes.toggleActivo');
-    Route::delete('/admin/pacientes/{paciente}', [App\Http\Controllers\PacienteController::class, 'destroy'])->name('admin.pacientes.destroy');
-    Route::get('/admin/pacientes/{paciente}/registros', [App\Http\Controllers\PacienteController::class, 'vistaIndividual'])->name('admin.pacientes.vistaIndividual');
-    
-});
-
+use App\Http\Controllers\PacienteController;
 use App\Http\Controllers\RegistroController;
 
 Route::prefix('admin')->middleware('auth')->group(function () {
 
-    // CRUD REGISTROS
+    /*
+    |--------------------------------------------------------------------------
+    | PACIENTES
+    |--------------------------------------------------------------------------
+    */
+
+    Route::get('/pacientes', [PacienteController::class, 'index'])
+        ->name('admin.pacientes.index');
+
+    Route::get('/pacientes/create', [PacienteController::class, 'create'])
+        ->name('admin.pacientes.create');
+
+    Route::post('/pacientes', [PacienteController::class, 'store'])
+        ->name('admin.pacientes.store');
+
+    Route::get('/pacientes/{paciente}', [PacienteController::class, 'show'])
+        ->name('admin.pacientes.show');
+
+    Route::get('/pacientes/{paciente}/edit', [PacienteController::class, 'edit'])
+        ->name('admin.pacientes.edit');
+
+    Route::put('/pacientes/{paciente}', [PacienteController::class, 'update'])
+        ->name('admin.pacientes.update');
+
+    // Activar / desactivar paciente
+    Route::put('/pacientes/{paciente}/toggle', [PacienteController::class, 'toggleActivo'])
+        ->name('admin.pacientes.toggle');
+
+    // Vista clínica / historial del paciente
+    Route::get('/pacientes/{paciente}/vista', [PacienteController::class, 'vistaIndividual'])
+        ->name('admin.pacientes.vistaIndividual');
+
+    /*
+    |--------------------------------------------------------------------------
+    | REGISTROS CLÍNICOS
+    |--------------------------------------------------------------------------
+    */
+
     Route::get('/registros', [RegistroController::class, 'index'])
         ->name('admin.registros.index');
 
     Route::get('/registros/create', [RegistroController::class, 'create'])
         ->name('admin.registros.create');
+
+    // Crear registro desde paciente
+    Route::get('/registros/create/{paciente}', [RegistroController::class, 'createFromPaciente'])
+        ->name('admin.registros.createFromPaciente');
 
     Route::post('/registros', [RegistroController::class, 'store'])
         ->name('admin.registros.store');
@@ -109,19 +134,11 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::delete('/registros/{registro}', [RegistroController::class, 'destroy'])
         ->name('admin.registros.destroy');
 
-    // CREAR REGISTRO DESDE PACIENTE
-    Route::get('/registros/create/{paciente}', [RegistroController::class, 'createFromPaciente'])
-        ->name('admin.registros.createFromPaciente');
-
-    // REGISTROS POR PACIENTE
-    Route::get('/pacientes/{paciente}/registros', [RegistroController::class, 'registrosPaciente'])
-        ->name('admin.pacientes.registros');
-
-    // PDF
+    // PDF del registro
     Route::get('/registros/{registro}/pdf', [RegistroController::class, 'pdf'])
         ->name('admin.registros.pdf');
 
-    // DUPLICAR
+    // Duplicar registro
     Route::get('/registros/{registro}/duplicar', [RegistroController::class, 'duplicar'])
         ->name('admin.registros.duplicar');
 
