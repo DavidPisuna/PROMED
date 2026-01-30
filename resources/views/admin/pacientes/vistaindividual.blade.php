@@ -144,9 +144,7 @@
                                     <a href="{{ route('admin.registros.edit', $registro) }}" class="btn btn-outline-pastel-warning btn-sm" title="Editar"><i class="fas fa-edit"></i></a>
                                     <a href="{{ route('admin.registros.pdf', $registro->id) }}" class="btn btn-outline-pastel-purple btn-sm" target="_blank" title="PDF"><i class="fas fa-file-pdf"></i></a>
                                     <a href="{{ route('admin.registros.duplicar', $registro) }}" class="btn btn-warning"><i class="fas fa-copy"></i></a>
-                                    <h1>HOLA MUNDO</h1>
-                                    <a href="{{ route('admin.registros.duplicar', $registro) }}" class="btn btn-warning"><i class="fas fa-copy"></i></a>
-                                    <button onclick="confirmDelete({{ $registro->id }}, '{{ $registro->tipo }}')" class="btn btn-outline-pastel-red btn-sm" title="Eliminar"><i class="fas fa-trash"></i></button>
+                                    
                                 </div>
                                 <form id="delete-form-{{ $registro->id }}" action="{{ route('admin.registros.destroy', $registro) }}" method="POST" class="d-none">@csrf @method('DELETE')</form>
                             </td>

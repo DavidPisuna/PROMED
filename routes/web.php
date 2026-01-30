@@ -93,7 +93,6 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::put('/registros/{registro}', [App\Http\Controllers\RegistroController::class, 'update'])->name('admin.registros.update');
     Route::delete('/registros/{registro}', [App\Http\Controllers\RegistroController::class, 'destroy'])->name('admin.registros.destroy');        
     Route::get('/admin/registros/create/{paciente}', [App\Http\Controllers\RegistroController::class, 'createFromPaciente'])->name('admin.registros.createFromPaciente');
-    Route::post('/admin/registros', [App\Http\Controllers\RegistroController::class, 'store'])->name('admin.registros.store');
     Route::get('/admin/pacientes/{paciente}/registros', [App\Http\Controllers\RegistroController::class, 'registrosPaciente'])
     ->name('admin.pacientes.registros');
     Route::get('/admin/registros/{registro}/pdf', [App\Http\Controllers\RegistroController::class, 'pdf'])
