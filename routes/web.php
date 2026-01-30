@@ -99,9 +99,7 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::put('/pacientes/{paciente}/toggle', 
                 [PacienteController::class, 'toggleActivo']
             )->name('admin.pacientes.toggleActivo'); // <--- Agregamos "Activo" al final
-
-
-
+            
     // Vista clínica / historial del paciente
     Route::get('/pacientes/{paciente}/vista', [PacienteController::class, 'vistaIndividual'])
         ->name('admin.pacientes.vistaIndividual');
