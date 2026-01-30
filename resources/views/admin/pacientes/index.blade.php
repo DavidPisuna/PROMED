@@ -126,7 +126,6 @@
                         <tr>
                             <th class="text-center border-0" style="width: 8%">ID</th>
                             <th class="border-0" style="width: 25%">Información del Paciente</th>
-                            <th class="border-0" style="width: 15%">Documentos</th>
                             <th class="border-0" style="width: 20%">Sucursal</th>
                             <th class="text-center border-0" style="width: 12%">Estado</th>
                             <th class="text-center border-0" style="width: 20%">Acciones</th>
@@ -172,20 +171,7 @@
                                     </div>
                                 </div>
                             </td>
-                            <td>
-                                <div class="d-flex flex-column">
-                                    <span class="badge badge-pastel-purple text-dark mb-1 py-2 px-3">
-                                        <i class="fas fa-id-card mr-1"></i>
-                                        {{ $paciente->cedula_identidad }}
-                                    </span>
-                                    @if($paciente->lateralidad)
-                                        <small class="text-muted">
-                                            <i class="fas fa-hand-paper mr-1"></i>
-                                            {{ $paciente->lateralidad }}
-                                        </small>
-                                    @endif
-                                </div>
-                            </td>
+                            
                             <td>
                                 <div class="d-flex align-items-center">
                                     @if($paciente->sucursal)
@@ -230,24 +216,19 @@
                                 </div>
                             </td>
                             <td class="text-center">
-                                {{-- Botón para Registros: Un icono de usuario con expediente o historial --}}
-                                <a href="{{ route('admin.pacientes.vistaIndividual', $paciente) }}" 
-                                class="btn btn-sm btn-pastel-info mb-1 w-75 shadow-sm" 
-                                title="Ver historial médico completo">
-                                    <i class="fas fa-notes-medical mr-1"></i> Ver Registros
-                                </a>
-
-                                {{-- Botón para Certificados: Un icono de medalla o diploma con sello --}}
-                                <a href="{{ route('admin.certificados.byPaciente', $paciente) }}" 
-                                class="btn btn-sm btn-pastel-info mb-1 w-75 shadow-sm" 
-                                title="Ver certificados emitidos">
-                                    <i class="fas fa-microscope mr-1"></i> Certificados
-                                </a>
-                                <a href="{{ route('admin.inmunizaciones.byPaciente', $paciente) }}"
-                                    class="btn btn-outline-success btn-sm">
-                                    <i class="fas fa-syringe"></i> Inmunizaciones
-                                </a>
-
+                                
+                                    <a href="{{ route('admin.pacientes.vistaIndividual', $paciente) }}" class="btn btn-white border-pastel shadow-xs" title="Registros">
+                                        <i class="fas fa-folder-open text-info"></i>
+                                    </a>
+                                    <a href="{{ route('admin.certificados.byPaciente', $paciente) }}" class="btn btn-white border-pastel shadow-xs" title="Certificados">
+                                        <i class="fas fa-file-medical text-success"></i>
+                                    </a>
+                                    <a href="{{  route('admin.inmunizaciones.byPaciente', $paciente) }}" class="btn btn-white border-pastel shadow-xs" title="Inmunizaciones">
+                                        <i class="fas fa-syringe text-red"></i>
+                                    </a>
+                                    <a href="{{ route('admin.notas.byPaciente', $paciente) }}" class="btn btn-white border-pastel shadow-xs" title="Notas">
+                                        <i class="fas fa-pen-fancy text-warning"></i>
+                                    </a>
                             </td>
                             <td class="text-center">
                                 <div class="btn-group btn-group-pastel" role="group">

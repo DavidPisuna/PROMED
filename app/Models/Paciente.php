@@ -76,5 +76,9 @@ class Paciente extends Model
     {
         return $this->hasMany(Inmunizacion::class);
     }
+     public function notasEvoluciones()
+    {
+        return $this->hasMany(NotaEvolucion::class);
+    }
 
 }

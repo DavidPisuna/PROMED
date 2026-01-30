@@ -397,6 +397,51 @@ Route::prefix('admin/inmunizaciones')
         )->name('pdf');
     });
 
+use App\Http\Controllers\NotaEvolucionController;
+
+Route::prefix('admin/notas_evoluciones')
+    ->name('admin.notas.')
+    ->group(function () {
+
+    // 📋 Listar notas por paciente
+    Route::get('/paciente/{paciente}',
+        [NotaEvolucionController::class, 'byPaciente']
+    )->name('byPaciente');
+
+    // ➕ Crear nota desde paciente
+    Route::get('/paciente/{paciente}/crear',
+        [NotaEvolucionController::class, 'createFromPaciente']
+    )->name('createFromPaciente');
+
+    // 💾 Guardar nota
+    Route::post('/',
+        [NotaEvolucionController::class, 'store']
+    )->name('store');
+
+    // 👁 Ver nota
+    Route::get('/{nota}',
+        [NotaEvolucionController::class, 'show']
+    )->name('show');
+
+    // ✏️ Editar nota
+    Route::get('/{nota}/edit',
+        [NotaEvolucionController::class, 'edit']
+    )->name('edit');
+
+    // 🔄 Actualizar nota
+    Route::put('/{nota}',
+        [NotaEvolucionController::class, 'update']
+    )->name('update');
+
+    // 🗑 Eliminar nota
+    Route::delete('/{nota}',
+        [NotaEvolucionController::class, 'destroy']
+    )->name('destroy');
+    
+     Route::get('/paciente/{paciente}/pdf',
+        [NotaEvolucionController::class, 'pdfByPaciente']
+    )->name('pdfByPaciente');
+});
 
 
 
