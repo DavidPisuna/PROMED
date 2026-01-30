@@ -79,25 +79,29 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/admin/pacientes/{paciente}', [App\Http\Controllers\PacienteController::class, 'update'])->name('admin.pacientes.update');
     Route::patch('/admin/pacientes/{paciente}/toggle-activo', [App\Http\Controllers\PacienteController::class, 'toggleActivo'])->name('admin.pacientes.toggleActivo');
     Route::delete('/admin/pacientes/{paciente}', [App\Http\Controllers\PacienteController::class, 'destroy'])->name('admin.pacientes.destroy');
-    Route::get('/admin/pacientes/{paciente}/registros', [App\Http\Controllers\PacienteController::class, 'vista_individual'])->name('admin.pacientes.vista_individual');
     
+    Route::get('/admin/pacientes/{paciente}/registros', [App\Http\Controllers\PacienteController::class, 'vistaIndividual'])
+    ->name('admin.pacientes.vistaIndividual');
+
 });
 
 //REGISTROS
 Route::prefix('admin')->middleware('auth')->group(function () {
+
+    // Rutas de Registros
     Route::get('/registros', [App\Http\Controllers\RegistroController::class, 'index'])->name('admin.registros.index');
     Route::get('/registros/create', [App\Http\Controllers\RegistroController::class, 'create'])->name('admin.registros.create');
+    Route::post('/registros', [App\Http\Controllers\RegistroController::class, 'store'])->name('admin.registros.store');
     Route::get('/registros/{registro}', [App\Http\Controllers\RegistroController::class, 'show'])->name('admin.registros.show');
     Route::get('/registros/{registro}/edit', [App\Http\Controllers\RegistroController::class, 'edit'])->name('admin.registros.edit');
     Route::put('/registros/{registro}', [App\Http\Controllers\RegistroController::class, 'update'])->name('admin.registros.update');
     Route::delete('/registros/{registro}', [App\Http\Controllers\RegistroController::class, 'destroy'])->name('admin.registros.destroy');        
-    Route::get('/admin/registros/create/{paciente}', [App\Http\Controllers\RegistroController::class, 'createFromPaciente'])->name('admin.registros.createFromPaciente');
-    Route::post('/admin/registros', [App\Http\Controllers\RegistroController::class, 'store'])->name('admin.registros.store');
-    Route::get('/admin/pacientes/{paciente}/registros', [App\Http\Controllers\RegistroController::class, 'registrosPaciente'])
-    ->name('admin.pacientes.registros');
-    Route::get('/admin/registros/{registro}/pdf', [App\Http\Controllers\RegistroController::class, 'pdf'])
-    ->name('admin.registros.pdf');
-    Route::get('/registros/{registro}/duplicar',[App\Http\Controllers\RegistroController::class, 'duplicar'])->name('admin.registros.duplicar');
+    Route::get('/registros/{registro}/pdf', [App\Http\Controllers\RegistroController::class, 'pdf'])->name('admin.registros.pdf');
+    Route::get('/registros/{registro}/duplicar', [App\Http\Controllers\RegistroController::class, 'duplicar'])->name('admin.registros.duplicar');
+
+    // Crear registro desde paciente
+    Route::get('/registros/create/{paciente}', [App\Http\Controllers\RegistroController::class, 'createFromPaciente'])->name('admin.registros.createFromPaciente');
+
 });
 
 //Antecedentes patológicos
