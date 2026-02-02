@@ -57,7 +57,10 @@ class AntecedentePatologicoController extends Controller
      */
     public function edit(AntecedentePatologico $antecedente)
     {
-        return view('admin.antecedentes_patologicos.edit', compact('antecedente'));
+        // Cargamos el registro y el paciente para mostrar la info en la vista
+        $registro = $antecedente->registro()->with('paciente', 'doctor')->first();
+        
+        return view('admin.antecedentes_patologicos.edit', compact('antecedente', 'registro'));
     }
 
     /**
